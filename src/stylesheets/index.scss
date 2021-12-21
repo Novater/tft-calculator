@@ -51,14 +51,27 @@ $height-footer: 10vh;
 }
 
 .calculator-container {
-  padding-left: 30rem;
-  padding-right: 30rem;
+  padding-left: 10%;
+  padding-right: 10%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  align-items: center;
   flex-wrap: wrap;
-  width: 100%;
-  height: $height-main;
+  justify-content: space-between;
+  height: 70vh;
+
+  .input-container {
+    flex-basis: 50%;
+    flex-grow: 1;
+  }
+
+  .graph-container {
+    flex-basis: 50%;
+    flex-grow: 1;
+    canvas {
+      width: 100% !important;
+    }
+  }
 }
 
 .footer-container {
@@ -66,3 +79,10 @@ $height-footer: 10vh;
   width: 100%;
   background-color: $color-silver;
 }
+
+@media (max-width: 1200px) {
+  .input-container, .graph-container {
+    flex-basis: 100% !important;
+  }
+}
+
