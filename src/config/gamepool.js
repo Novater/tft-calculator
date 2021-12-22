@@ -51,6 +51,8 @@ export default class GamePool {
     this.goldPerRoll = number;
   };
 
+  getGoldPerRoll = () => this.goldPerRoll;
+
   getLevels = () => this.levels;
 
   getTiers = () => this.tiers;
@@ -70,7 +72,7 @@ export default class GamePool {
     };
   };
 
-  getProbabilityMatrix = () => this.levelTierMatrix;
+  getProbabilityMatrix = () => this.levelTierMatrix || {};
 
   getNChampsInTier = (tierId) => (tierId ? this.champsInTier[tierId] : this.champsInTier);
 

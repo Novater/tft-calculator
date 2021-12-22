@@ -54,7 +54,7 @@ $height-footer: 10vh;
 .calculator-container {
   padding-top: 2em;
   padding-left: 15%;
-  padding-right: 10%;
+  padding-right: 15%;
   padding-bottom: 2em;
   flex-grow: 1;
   display: flex;
@@ -127,6 +127,7 @@ $height-footer: 10vh;
 
       div {
         margin: 1em;
+        text-align: center;
       }
     }
   }
@@ -134,6 +135,10 @@ $height-footer: 10vh;
   .graph-container {
     flex-basis: 50%;
     flex-grow: 1;
+    padding-top: 2em;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 2em;
     canvas {
       width: 100% !important;
     }

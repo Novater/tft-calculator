@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import GamePool from '../config/gamepool';
 import Level from '../config/level';
 import Tier from '../config/tier';
@@ -7,8 +8,8 @@ import ProbabilityChart from '../components/ProbabilityChart';
 
 export default function Home() {
   const [goldToRoll, setGoldToRoll] = useState(0);
-  const [level, setLevel] = useState(0);
-  const [tier, setTier] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [tier, setTier] = useState(1);
 
   const gamePool = new GamePool();
   const levels = [];
@@ -187,7 +188,7 @@ export default function Home() {
               <div className="btn-group">
                 {
                   _.map(gamePool.getLevels(), (thisLevel) => (
-                    <button type="button" className={`level-btn${thisLevel.getId().toString() === level ? ' selected' : ''}`} onClick={setNewLevel} value={thisLevel.getId()}>
+                    <button type="button" className={`level-btn${thisLevel.getId().toString() === level.toString() ? ' selected' : ''}`} onClick={setNewLevel} value={thisLevel.getId()}>
                       {thisLevel.getName()}
                     </button>
                   ))
@@ -202,7 +203,7 @@ export default function Home() {
               <div className="btn-group">
                 {
                   _.map(gamePool.getTiers(), (thisTier) => (
-                    <button type="button" className={`level-btn${thisTier.getId().toString() === tier ? ' selected' : ''}`} onClick={setNewTier} value={thisTier.getId()}>
+                    <button type="button" className={`level-btn${thisTier.getId().toString() === tier.toString() ? ' selected' : ''}`} onClick={setNewTier} value={thisTier.getId()}>
                       {thisTier.getName()}
                     </button>
                   ))
@@ -218,17 +219,29 @@ export default function Home() {
           </div>
           <div className="printed-stats">
             <div>
-              {'Expected Number of Desired Specific Tier Champion '}
+              <MathJaxContext>
+                <MathJax dynamic>
+                  {`\\(E\\) (Specific ${tier} Cost at Level ${level} rolling ${goldToRoll} gold)`}
+                </MathJax>
+                <MathJax dynamic>
+                  {`\\(=\\) #Rolls for ${goldToRoll} Gold * #Slots per Roll * P(${tier} Cost/Roll at Level ${level}) * #Copies of Specific ${tier} Cost / #Total Copies of ${tier} Costs`}
+                </MathJax>
+                <MathJax dynamic>
+                  {`\\(= \\frac{${goldToRoll || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
+                </MathJax>
+
+              </MathJaxContext>
+              {'= '}
               {
                 gamePool.getRollEV({
                   levelId: level,
                   tierId: tier,
-                  gold: goldToRoll,
+                  gold: goldToRoll || 0,
                 }).ev || 0
               }
             </div>
             <div>
-              {'Number Rolls: '}
+              <h2>{`Number Rolls with ${goldToRoll} Gold (not counting gold spent purchasing): `}</h2>
               {
                 gamePool.getRollEV({
                   levelId: level,
@@ -238,7 +251,7 @@ export default function Home() {
               }
             </div>
             <div>
-              {'Probability per Slot '}
+              <h2>{'Probability per Slot: '}</h2>
               {
                 gamePool.getRollEV({
                   levelId: level,
