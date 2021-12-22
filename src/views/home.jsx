@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { useState } from 'react';
 import GamePool from '../config/gamepool';
 import Level from '../config/level';
@@ -163,6 +164,7 @@ export default function Home() {
   console.log(gamePool.getProbabilityMatrix());
 
   function setNewLevel(event) {
+    console.log(event.target);
     setLevel(event.target.value);
   }
 
@@ -180,53 +182,71 @@ export default function Home() {
       <section className="calculator-container">
         <div className="input-container">
           <div className="input-group">
-            <label htmlFor="level">
-              Level:
-              <input id="level" type="text" value={level} onChange={setNewLevel} />
+            <label htmlFor="level" className="font-sans font-semibold">
+              LEVEL
+              <div className="btn-group">
+                {
+                  _.map(gamePool.getLevels(), (thisLevel) => (
+                    <button type="button" className={`level-btn${thisLevel.getId().toString() === level ? ' selected' : ''}`} onClick={setNewLevel} value={thisLevel.getId()}>
+                      {thisLevel.getName()}
+                    </button>
+                  ))
+                }
+              </div>
             </label>
 
           </div>
           <div className="input-group">
-            <label htmlFor="tier">
-              Tier:
-              <input id="tier" type="text" value={tier} onChange={setNewTier} />
+            <label htmlFor="tier" className="font-sans font-semibold">
+              TIER
+              <div className="btn-group">
+                {
+                  _.map(gamePool.getTiers(), (thisTier) => (
+                    <button type="button" className={`level-btn${thisTier.getId().toString() === tier ? ' selected' : ''}`} onClick={setNewTier} value={thisTier.getId()}>
+                      {thisTier.getName()}
+                    </button>
+                  ))
+                }
+              </div>
             </label>
           </div>
           <div className="input-group">
-            <label htmlFor="goldToRoll">
-              Gold To Roll:
+            <label htmlFor="goldToRoll" className="font-sans font-semibold">
+              GOLD TO ROLL
               <input id="goldToRoll" type="text" value={goldToRoll} onChange={setNewGoldToRoll} />
             </label>
           </div>
-          <div>
-            EV:
-            {
-              gamePool.getRollEV({
-                levelId: level,
-                tierId: tier,
-                gold: goldToRoll,
-              }).ev || 0
-            }
-          </div>
-          <div>
-            Num Rolls:
-            {
-              gamePool.getRollEV({
-                levelId: level,
-                tierId: tier,
-                gold: goldToRoll,
-              }).numRolls || 0
-            }
-          </div>
-          <div>
-            Probability Per Slot:
-            {
-              gamePool.getRollEV({
-                levelId: level,
-                tierId: tier,
-                gold: goldToRoll,
-              }).probPerChance || 0
-            }
+          <div className="printed-stats">
+            <div>
+              {'Expected Number of Desired Specific Tier Champion '}
+              {
+                gamePool.getRollEV({
+                  levelId: level,
+                  tierId: tier,
+                  gold: goldToRoll,
+                }).ev || 0
+              }
+            </div>
+            <div>
+              {'Number Rolls: '}
+              {
+                gamePool.getRollEV({
+                  levelId: level,
+                  tierId: tier,
+                  gold: goldToRoll,
+                }).numRolls || 0
+              }
+            </div>
+            <div>
+              {'Probability per Slot '}
+              {
+                gamePool.getRollEV({
+                  levelId: level,
+                  tierId: tier,
+                  gold: goldToRoll,
+                }).probPerChance || 0
+              }
+            </div>
           </div>
         </div>
         <div className="graph-container"><ProbabilityChart /></div>

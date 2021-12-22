@@ -5,6 +5,8 @@ export default class GamePool {
     this.levelTierMatrix = {};
     this.champsInTier = {};
     this.uniqueChampsInTier = {};
+    this.tiers = [];
+    this.levels = [];
   }
 
   populateLevels = (levels) => {
@@ -48,6 +50,10 @@ export default class GamePool {
   setGoldPerRoll = (number) => {
     this.goldPerRoll = number;
   };
+
+  getLevels = () => this.levels;
+
+  getTiers = () => this.tiers;
 
   getRollEV = ({ levelId, tierId, gold }) => {
     if (!levelId || !tierId || !gold) return {};
