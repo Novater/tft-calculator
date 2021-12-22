@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/tft-calculator/static/css/main.52b7da49.css",
+    "main.js": "/tft-calculator/static/js/main.2ef21cd8.js",
+    "static/media/tft-background.jpg": "/tft-calculator/static/media/tft-background.850475188db5aca77928.jpg",
+    "index.html": "/tft-calculator/index.html",
+    "main.52b7da49.css.map": "/tft-calculator/static/css/main.52b7da49.css.map",
+    "main.2ef21cd8.js.map": "/tft-calculator/static/js/main.2ef21cd8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.52b7da49.css",
+    "static/js/main.2ef21cd8.js"
+  ]
+}
