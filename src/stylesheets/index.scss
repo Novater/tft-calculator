@@ -71,13 +71,15 @@ $height-footer: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
 
     .input-group {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
       margin-bottom: 1em;
-      
+
       label {
         display: flex;
         flex-direction: column;
@@ -136,12 +138,26 @@ $height-footer: 10vh;
   .graph-container {
     flex-basis: 50%;
     flex-grow: 1;
-    padding-top: 2em;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 2em;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    position: relative;
+
     canvas {
       width: 100% !important;
+      position: relative;
+    }
+
+    &:after {
+      content: 'Coming Soon...';
+      display: grid;
+      place-items: center;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0 0 0 / 0.2)
     }
   }
 }
@@ -158,5 +174,9 @@ $height-footer: 10vh;
   .input-container,
   .graph-container {
     flex-basis: 100% !important;
+  }
+
+  .graph-container {
+    margin-top: 5em;
   }
 }
