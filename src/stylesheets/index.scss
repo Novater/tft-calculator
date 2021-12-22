@@ -76,7 +76,8 @@ $height-footer: 10vh;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
-
+      margin-bottom: 1em;
+      
       label {
         display: flex;
         flex-direction: column;
