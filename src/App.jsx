@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <RecoilRoot>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/tft-calculator" element={<Home />} />
         </Routes>
       </RecoilRoot>
     </div>
