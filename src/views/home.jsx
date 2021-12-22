@@ -184,7 +184,7 @@ export default function Home() {
         <div className="input-container">
           <div className="input-group">
             <label htmlFor="level" className="font-sans font-semibold">
-              LEVEL
+              CURRENT LEVEL
               <div className="btn-group">
                 {
                   _.map(gamePool.getLevels(), (thisLevel) => (
@@ -199,7 +199,7 @@ export default function Home() {
           </div>
           <div className="input-group">
             <label htmlFor="tier" className="font-sans font-semibold">
-              TIER
+              CHAMPION TIER
               <div className="btn-group">
                 {
                   _.map(gamePool.getTiers(), (thisTier) => (
