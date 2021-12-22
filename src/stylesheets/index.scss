@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+$color-neutral: #efefef;
+$color-sky: #caebf2;
+$color-carbon: #a9a9a9;
+$color-dark-grey: #a2a3a4;
+$color-watermelon: #ff3b3f;
+$color-gold: #c9b037;
+$color-silver: #d7d7d7;
+$color-bronze: #ad8a56;
+$color-nav: #212529;
+$color-faded-white: rgb(255 255 255 / 0.3);
+$color-opaque-black: rgb(0 0 0 / 0.6);
+$color-opaque-black-2: rgb(0 0 0 / 0.2);
+$height-banner: 30vh;
+$height-main: 80vh;
+$height-footer: 10vh;
+
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+}
+.banner-container {
+  background-image: url('../assets/tft-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 70%;
+  background-color: rgba(0 0 0 / 0.5);
+
+  width: 100%;
+  height: $height-banner;
+  display: grid;
+  place-items: center;
+
+  &:after {
+    content: 'A Teamfight Tactics Probability Calculator';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: $color-neutral;
+    font-size: 2em;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: $height-banner;
+    background: linear-gradient(to top, $color-nav 0%, transparent 80%);
+  }
+}
+
+.calculator-container {
+  padding-left: 15%;
+  padding-right: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 70vh;
+
+  .input-container {
+    flex-basis: 50%;
+    flex-grow: 1;
+  }
+
+  .graph-container {
+    flex-basis: 50%;
+    flex-grow: 1;
+    canvas {
+      width: 100% !important;
+    }
+  }
+}
+
+.footer-container {
+  height: $height-footer;
+  width: 100%;
+  background-color: $color-silver;
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 1200px) {
+  .input-container, .graph-container {
+    flex-basis: 100% !important;
+  }
+}
+
