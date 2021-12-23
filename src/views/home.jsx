@@ -10,6 +10,7 @@ export default function Home() {
   const [goldToRoll, setGoldToRoll] = useState(0);
   const [level, setLevel] = useState(1);
   const [tier, setTier] = useState(1);
+  const [expToLevel, setExpToLevel] = useState(0);
 
   const gamePool = new GamePool();
   const levels = [];
@@ -165,16 +166,27 @@ export default function Home() {
   console.log(gamePool.getProbabilityMatrix());
 
   function setNewLevel(event) {
-    console.log(event.target);
-    setLevel(event.target.value);
+    let newVal = parseInt(event.target.value, 10);
+    newVal = Number.isNaN(newVal) ? 0 : newVal;
+    setLevel(newVal);
   }
 
   function setNewTier(event) {
-    setTier(event.target.value);
+    let newVal = parseInt(event.target.value, 10);
+    newVal = Number.isNaN(newVal) ? 0 : newVal;
+    setTier(newVal);
   }
 
   function setNewGoldToRoll(event) {
-    setGoldToRoll(event.target.value);
+    let newVal = parseInt(event.target.value, 10);
+    newVal = Number.isNaN(newVal) ? 0 : newVal;
+    setGoldToRoll(newVal);
+  }
+
+  function setNewExpToLevel(event) {
+    let newVal = parseInt(event.target.value, 10);
+    newVal = Number.isNaN(newVal) ? 0 : newVal;
+    setExpToLevel(newVal);
   }
 
   return (
@@ -217,6 +229,15 @@ export default function Home() {
               <input id="goldToRoll" type="text" value={goldToRoll} onChange={setNewGoldToRoll} />
             </label>
           </div>
+          <div className="input-group">
+            <label htmlFor="expToNextLevel" className="font-sans font-semibold">
+              EXP TO NEXT LEVEL
+              <input id="goldToRoll" type="text" value={expToLevel} onChange={setNewExpToLevel} />
+            </label>
+          </div>
+        </div>
+        <div className="graph-container">
+          <ProbabilityChart />
           <div className="printed-stats">
             <div>
               <MathJaxContext>
@@ -261,8 +282,51 @@ export default function Home() {
               }
             </div>
           </div>
+          <div className="printed-stats">
+            <div>
+              <MathJaxContext>
+                <MathJax dynamic>
+                  {`\\(E\\) (Specific ${tier} Cost at Level ${level + 1} rolling ${goldToRoll - expToLevel} gold)`}
+                </MathJax>
+                <MathJax dynamic>
+                  {`\\(=\\) #Rolls for ${goldToRoll - expToLevel} Gold * #Slots per Roll * P(${tier} Cost/Roll at Level ${level + 1}) * #Copies of Specific ${tier} Cost / #Total Copies of ${tier} Costs`}
+                </MathJax>
+                <MathJax dynamic>
+                  {`\\(= \\frac{${goldToRoll - expToLevel * 4 || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level + 1][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
+                </MathJax>
+
+              </MathJaxContext>
+              {'= '}
+              {
+                gamePool.getRollEV({
+                  levelId: level + 1,
+                  tierId: tier,
+                  gold: goldToRoll - expToLevel || 0,
+                }).ev || 0
+              }
+            </div>
+            <div>
+              <h2>{`Number Rolls with ${goldToRoll - expToLevel} Gold (not counting gold spent purchasing): `}</h2>
+              {
+                gamePool.getRollEV({
+                  levelId: level + 1,
+                  tierId: tier,
+                  gold: goldToRoll - expToLevel,
+                }).numRolls || 0
+              }
+            </div>
+            <div>
+              <h2>{'Probability per Slot: '}</h2>
+              {
+                gamePool.getRollEV({
+                  levelId: level + 1,
+                  tierId: tier,
+                  gold: goldToRoll - expToLevel,
+                }).probPerChance || 0
+              }
+            </div>
+          </div>
         </div>
-        <div className="graph-container"><ProbabilityChart /></div>
       </section>
       <section className="footer-container">
         <h1 className="font-sans">Tool by Novater.io</h1>
