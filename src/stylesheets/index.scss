@@ -10,9 +10,15 @@ $color-gold: #c9b037;
 $color-silver: #d7d7d7;
 $color-bronze: #ad8a56;
 $color-nav: #212529;
+$color-darkblue: #0a3d54;
 $color-faded-white: rgb(255 255 255 / 0.3);
 $color-opaque-black: rgb(0 0 0 / 0.6);
 $color-opaque-black-2: rgb(0 0 0 / 0.2);
+$color-tier-1: #23303b;
+$color-tier-2: #0c5329;
+$color-tier-3: #1b5c7f;
+$color-tier-4: #a4047c;
+$color-tier-5: #b87a1f;
 $height-banner: 30vh;
 $height-main: 80vh;
 $height-footer: 10vh;
@@ -77,12 +83,14 @@ $height-footer: 10vh;
     .input-group {
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: center;
       margin-bottom: 1em;
 
       label {
         display: flex;
         flex-direction: column;
+        margin-right: 2em;
+        text-align: center;
 
         .level-btn {
           border: 1px solid $color-nav;
@@ -90,30 +98,127 @@ $height-footer: 10vh;
           box-shadow: 0px 0px 2px 2px $color-dark-grey;
           width: 3em;
           height: 3em;
-
           margin: 0.5em;
 
           &:hover {
-            background-color: $color-carbon;
-            color: $color-neutral;
+            background-color: $color-silver;
           }
-
           &.selected {
             background-color: $color-nav;
             color: $color-neutral;
           }
+
+          &#tier-1 {
+            box-shadow: 0 0 2px 2px $color-tier-1;
+            border-color: $color-tier-1;
+            &:hover {
+              background-color: $color-tier-1;
+              color: $color-neutral;
+            }
+            &.selected {
+              background-color: $color-tier-1;
+              color: $color-neutral;
+            }
+          }
+
+          &#tier-2 {
+            box-shadow: 0 0 2px 2px $color-tier-2;
+            border-color: $color-tier-2;
+            &:hover {
+              background-color: $color-tier-2;
+              color: $color-neutral;
+            }
+            &.selected {
+              background-color: $color-tier-2;
+              color: $color-neutral;
+            }
+          }
+
+          &#tier-3 {
+            box-shadow: 0 0 2px 2px $color-tier-3;
+            border-color: $color-tier-3;
+            &:hover {
+              background-color: $color-tier-3;
+              color: $color-neutral;
+            }
+            &.selected {
+              background-color: $color-tier-3;
+              color: $color-neutral;
+            }
+          }
+
+          &#tier-4 {
+            box-shadow: 0 0 2px 2px $color-tier-4;
+            border-color: $color-tier-4;
+            &:hover {
+              background-color: $color-tier-4;
+              color: $color-neutral;
+            }
+            &.selected {
+              background-color: $color-tier-4;
+              color: $color-neutral;
+            }
+          }
+
+          &#tier-5 {
+            box-shadow: 0 0 2px 2px $color-tier-5;
+            border-color: $color-tier-5;
+            &:hover {
+              background-color: $color-tier-5;
+              color: $color-neutral;
+            }
+            &.selected {
+              background-color: $color-tier-5;
+              color: $color-neutral;
+            }
+          }
         }
+
 
         .btn-group {
           margin-top: 1em;
         }
 
-        #goldToRoll {
+        #goldToRoll, #goldToLevel {
           margin-top: 1em;
           border-radius: 5px;
-          background-color: $color-nav;
+          background-color: $color-silver;
           color: $color-neutral;
           padding: 0.5em;
+        }
+      }
+
+      .input-row {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        align-items: center;
+        margin-top: 1em;
+        
+        #goldToRoll {
+          margin: 0 !important;
+          width: 4em;
+          color: $color-gold !important;
+        }
+
+        #goldToLevel {
+          margin: 0 !important;
+          width: 4em;
+          color: $color-darkblue !important;
+        }
+
+        svg {
+          margin-left: 0.5em;
+          font-size: 1.5em;
+          width: 1.5em;
+          height: 1.5em;
+        }
+        .coin-svg {
+          color: $color-gold;
+        }
+
+        .levelup-svg {
+          color: $color-darkblue;
         }
       }
     }

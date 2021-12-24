@@ -4,7 +4,7 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax';
 import GamePool from '../config/gamepool';
 import Level from '../config/level';
 import Tier from '../config/tier';
-import ProbabilityChart from '../components/ProbabilityChart';
+import Icon from '../components/Icon';
 
 export default function Home() {
   const [goldToRoll, setGoldToRoll] = useState(0);
@@ -211,11 +211,11 @@ export default function Home() {
           </div>
           <div className="input-group">
             <label htmlFor="tier" className="font-sans font-semibold">
-              CHAMPION TIER
+              <p>CHAMPION TIER</p>
               <div className="btn-group">
                 {
                   _.map(gamePool.getTiers(), (thisTier) => (
-                    <button type="button" className={`level-btn${thisTier.getId().toString() === tier.toString() ? ' selected' : ''}`} onClick={setNewTier} value={thisTier.getId()}>
+                    <button type="button" id={`tier-${thisTier.getId().toString()}`} className={`level-btn${thisTier.getId().toString() === tier.toString() ? ' selected' : ''}`} onClick={setNewTier} value={thisTier.getId()}>
                       {thisTier.getName()}
                     </button>
                   ))
@@ -225,19 +225,22 @@ export default function Home() {
           </div>
           <div className="input-group">
             <label htmlFor="goldToRoll" className="font-sans font-semibold">
-              GOLD TO ROLL
-              <input id="goldToRoll" type="text" value={goldToRoll} onChange={setNewGoldToRoll} />
+              <p style={{ display: 'none' }}>GOLD TO ROLL</p>
+              <div className="input-row">
+                <input id="goldToRoll" type="text" value={goldToRoll} onChange={setNewGoldToRoll} />
+                <Icon type="coins" />
+              </div>
             </label>
-          </div>
-          <div className="input-group">
             <label htmlFor="expToNextLevel" className="font-sans font-semibold">
-              EXP TO NEXT LEVEL
-              <input id="goldToRoll" type="text" value={expToLevel} onChange={setNewExpToLevel} />
+              <p style={{ display: 'none' }}>EXP TO NEXT LEVEL</p>
+              <div className="input-row">
+                <input id="goldToLevel" type="text" value={expToLevel} onChange={setNewExpToLevel} />
+                <Icon type="levelup" />
+              </div>
             </label>
           </div>
         </div>
         <div className="graph-container">
-          <ProbabilityChart />
           <div className="printed-stats">
             <div>
               <MathJaxContext>
@@ -248,37 +251,15 @@ export default function Home() {
                   {`\\(=\\) #Rolls for ${goldToRoll} Gold * #Slots per Roll * P(${tier} Cost/Roll at Level ${level}) * #Copies of Specific ${tier} Cost / #Total Copies of ${tier} Costs`}
                 </MathJax>
                 <MathJax dynamic>
-                  {`\\(= \\frac{${goldToRoll || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
+                  {`\\(\\leq \\frac{${goldToRoll || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
                 </MathJax>
-
               </MathJaxContext>
-              {'= '}
               {
                 gamePool.getRollEV({
                   levelId: level,
                   tierId: tier,
                   gold: goldToRoll || 0,
                 }).ev || 0
-              }
-            </div>
-            <div>
-              <h2>{`Number Rolls with ${goldToRoll} Gold (not counting gold spent purchasing): `}</h2>
-              {
-                gamePool.getRollEV({
-                  levelId: level,
-                  tierId: tier,
-                  gold: goldToRoll,
-                }).numRolls || 0
-              }
-            </div>
-            <div>
-              <h2>{'Probability per Slot: '}</h2>
-              {
-                gamePool.getRollEV({
-                  levelId: level,
-                  tierId: tier,
-                  gold: goldToRoll,
-                }).probPerChance || 0
               }
             </div>
           </div>
@@ -292,9 +273,8 @@ export default function Home() {
                   {`\\(=\\) #Rolls for ${goldToRoll - expToLevel} Gold * #Slots per Roll * P(${tier} Cost/Roll at Level ${level + 1}) * #Copies of Specific ${tier} Cost / #Total Copies of ${tier} Costs`}
                 </MathJax>
                 <MathJax dynamic>
-                  {`\\(= \\frac{${goldToRoll - expToLevel * 4 || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level + 1][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
+                  {`\\(\\leq \\frac{${goldToRoll - expToLevel * 4 || 0}}{${gamePool.getGoldPerRoll()}} * ${gamePool.getProbabilityMatrix()[level + 1][tier]} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
                 </MathJax>
-
               </MathJaxContext>
               {'= '}
               {
@@ -303,26 +283,6 @@ export default function Home() {
                   tierId: tier,
                   gold: goldToRoll - expToLevel || 0,
                 }).ev || 0
-              }
-            </div>
-            <div>
-              <h2>{`Number Rolls with ${goldToRoll - expToLevel} Gold (not counting gold spent purchasing): `}</h2>
-              {
-                gamePool.getRollEV({
-                  levelId: level + 1,
-                  tierId: tier,
-                  gold: goldToRoll - expToLevel,
-                }).numRolls || 0
-              }
-            </div>
-            <div>
-              <h2>{'Probability per Slot: '}</h2>
-              {
-                gamePool.getRollEV({
-                  levelId: level + 1,
-                  tierId: tier,
-                  gold: goldToRoll - expToLevel,
-                }).probPerChance || 0
               }
             </div>
           </div>
