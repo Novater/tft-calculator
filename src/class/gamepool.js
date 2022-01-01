@@ -9,13 +9,16 @@ export default class GamePool {
     this.uniqueChampsInTier = {};
     this.tiers = [];
     this.levels = [];
+    this.fMemo = {};
   }
 
   _F = (num) => {
     if (num === 0) return 1;
     if (num === 1) return 1;
 
-    return num * this._F(num - 1);
+    const result = this.fMemo[num] !== undefined ? this.fMemo[num] : num * this._F(num - 1);
+    this.fMemo[num] = result;
+    return result;
   };
 
   _C = (total, selected) => this._F(total) / (this._F(total - selected) * this._F(selected));

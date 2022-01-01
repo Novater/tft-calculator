@@ -190,6 +190,7 @@ $height-footer: 10vh;
           background-color: $color-silver;
           color: $color-neutral;
           padding: 0.5em;
+          -webkit-appearance: none;
         }
       }
 
@@ -273,6 +274,7 @@ $height-footer: 10vh;
   background-color: $color-silver;
   color: $color-neutral;
   padding: 0.5em;
+  -webkit-appearance: none;
 }
 
 #champions-owned[data-tier='1'],

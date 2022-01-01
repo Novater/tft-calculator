@@ -1,14 +1,11 @@
-/* eslint no-debugger: 1 */
+/* eslint no-debugger: 1, react/forbid-prop-types: "off" */
 
 import _ from 'lodash';
 import React, { useState } from 'react';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
-import GamePool from '../class/gamepool';
-import Level from '../class/level';
-import Tier from '../class/tier';
+import PropTypes from 'prop-types';
 import Icon from '../components/Icon';
 
-export default function Home() {
+export default function Home({ gamePool }) {
   const [goldToRoll, setGoldToRoll] = useState(0);
   const [prelimGoldToRoll, setPrelimGoldToRoll] = useState(0);
   const [level, setLevel] = useState(1);
@@ -17,159 +14,6 @@ export default function Home() {
   const [prelimChampionsOwned, setPrelimChampionsOwned] = useState(0);
   const [otherChampionsOwned, setOtherChampionsOwned] = useState(0);
   const [prelimOtherChampionsOwned, setPrelimOtherChampionsOwned] = useState(0);
-
-  const gamePool = new GamePool();
-  const levels = [];
-  const tiers = [];
-
-  for (let i = 1; i <= 11; i += 1) {
-    const newLevel = new Level(i, i);
-    levels.push(newLevel);
-  }
-  for (let i = 1; i <= 5; i += 1) {
-    const newTier = new Tier(`${i}*`, i);
-    tiers.push(newTier);
-  }
-
-  gamePool.populateLevels(levels);
-  gamePool.populateTiers(tiers);
-  gamePool.setTierProbabilityForLevel({
-    levelId: 1,
-    tierProbabilities: {
-      1: 1,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 2,
-    tierProbabilities: {
-      1: 1,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 3,
-    tierProbabilities: {
-      1: 0.75,
-      2: 0.25,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 4,
-    tierProbabilities: {
-      1: 0.55,
-      2: 0.30,
-      3: 0.15,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 5,
-    tierProbabilities: {
-      1: 0.45,
-      2: 0.33,
-      3: 0.20,
-      4: 0.02,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 6,
-    tierProbabilities: {
-      1: 0.25,
-      2: 0.40,
-      3: 0.30,
-      4: 0.05,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 7,
-    tierProbabilities: {
-      1: 0.19,
-      2: 0.30,
-      3: 0.35,
-      4: 0.15,
-      5: 0.01,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 8,
-    tierProbabilities: {
-      1: 0.15,
-      2: 0.20,
-      3: 0.35,
-      4: 0.25,
-      5: 0.05,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 9,
-    tierProbabilities: {
-      1: 0.10,
-      2: 0.15,
-      3: 0.30,
-      4: 0.30,
-      5: 0.15,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 10,
-    tierProbabilities: {
-      1: 0.05,
-      2: 0.10,
-      3: 0.20,
-      4: 0.40,
-      5: 0.25,
-    },
-  });
-  gamePool.setTierProbabilityForLevel({
-    levelId: 11,
-    tierProbabilities: {
-      1: 0.01,
-      2: 0.02,
-      3: 0.12,
-      4: 0.50,
-      5: 0.35,
-    },
-  });
-  gamePool.setNChampsInTier({
-    tierId: 1,
-    number: 29,
-  });
-  gamePool.setNChampsInTier({
-    tierId: 2,
-    number: 22,
-  });
-  gamePool.setNChampsInTier({
-    tierId: 3,
-    number: 18,
-  });
-  gamePool.setNChampsInTier({
-    tierId: 4,
-    number: 12,
-  });
-  gamePool.setNChampsInTier({
-    tierId: 5,
-    number: 10,
-  });
-  gamePool.setNUniqueChampsInTier({
-    tierId: 1,
-    number: 13,
-  });
-  gamePool.setNUniqueChampsInTier({
-    tierId: 2,
-    number: 13,
-  });
-  gamePool.setNUniqueChampsInTier({
-    tierId: 3,
-    number: 13,
-  });
-  gamePool.setNUniqueChampsInTier({
-    tierId: 4,
-    number: 11,
-  });
-  gamePool.setNUniqueChampsInTier({
-    tierId: 5,
-    number: 9,
-  });
-  gamePool.setChancesPerRoll(5);
-  gamePool.setGoldPerRoll(2);
 
   function setNewLevel(event) {
     let newVal = parseInt(event.target.value, 10);
@@ -230,6 +74,23 @@ export default function Home() {
     newVal = newVal > maxVal ? maxVal : newVal;
     setPrelimOtherChampionsOwned(newVal);
   }
+
+  const EV = gamePool.getRollEV({
+    levelId: level,
+    tierId: tier,
+    gold: goldToRoll || 0,
+    championsOwned,
+    otherChampionsOwned,
+  }).ev || 0;
+
+  const PR = gamePool.getRollProbability({
+    levelId: level,
+    tierId: tier,
+    gold: goldToRoll || 0,
+    copies: 1,
+    championsOwned,
+    otherChampionsOwned,
+  }).probability || 0;
 
   return (
     <div className="homepage-container flex">
@@ -292,44 +153,8 @@ export default function Home() {
         </div>
         <div className="graph-container">
           <div className="printed-stats">
-            <div>
-              <MathJaxContext>
-                <MathJax dynamic>
-                  {`\\(E\\) (Desired ${tier} Cost at Level ${level} rolling ${goldToRoll} gold)`}
-                </MathJax>
-                <MathJax dynamic>
-                  {`\\(\\leq \\frac{${goldToRoll || 0}}{${gamePool.getGoldPerRoll()}} * ${!_.isEmpty(gamePool.getProbabilityMatrix()) ? gamePool.getProbabilityMatrix()[level][tier] : 0} * \\frac{${gamePool.getNChampsInTier(tier)}}{${gamePool.getNChampsInTier(tier)} * ${gamePool.getNUniqueChampsInTier(tier)}}\\)`}
-                </MathJax>
-                <MathJax dynamic>
-                  {'\\(\\approx \\hspace{1mm} \\)'}
-                  {
-                    gamePool.getRollEV({
-                      levelId: level,
-                      tierId: tier,
-                      gold: goldToRoll || 0,
-                      championsOwned,
-                      otherChampionsOwned,
-                    }).ev || 0
-                  }
-                </MathJax>
-                <MathJax dynamic>
-                  {'\\(P\\) (Rolling at least one)'}
-                </MathJax>
-                <MathJax dynamic>
-                  {'\\(\\approx \\hspace{1mm} \\)'}
-                  {
-                    gamePool.getRollProbability({
-                      levelId: level,
-                      tierId: tier,
-                      gold: goldToRoll || 0,
-                      copies: 1,
-                      championsOwned,
-                      otherChampionsOwned,
-                    }).probability || 0
-                  }
-                </MathJax>
-              </MathJaxContext>
-            </div>
+            <p>{`E(Desired ${tier} Cost | Level ${level} and ${goldToRoll} gold) = ${EV}`}</p>
+            <p>{`P(At least one copy) = ${PR}`}</p>
           </div>
         </div>
       </section>
@@ -339,3 +164,7 @@ export default function Home() {
     </div>
   );
 }
+
+Home.propTypes = {
+  gamePool: PropTypes.object.isRequired,
+};
