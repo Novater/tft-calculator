@@ -86,11 +86,15 @@ $height-footer: 10vh;
       justify-content: center;
       margin-bottom: 1em;
 
+      &#gold-and-exp {
+        justify-content: space-evenly;
+      }
+
       label {
         display: flex;
         flex-direction: column;
-        margin-right: 2em;
         text-align: center;
+        align-items: center;
 
         .level-btn {
           border: 1px solid $color-nav;
@@ -99,6 +103,7 @@ $height-footer: 10vh;
           width: 3em;
           height: 3em;
           margin: 0.5em;
+          cursor: pointer;
 
           &:hover {
             background-color: $color-silver;
@@ -174,12 +179,12 @@ $height-footer: 10vh;
           }
         }
 
-
         .btn-group {
           margin-top: 1em;
         }
 
-        #goldToRoll, #goldToLevel {
+        #goldToRoll,
+        #goldToLevel {
           margin-top: 1em;
           border-radius: 5px;
           background-color: $color-silver;
@@ -193,8 +198,9 @@ $height-footer: 10vh;
         flex-direction: row;
         width: fit-content;
         align-items: center;
+        justify-content: center;
         margin-top: 1em;
-        
+
         #goldToRoll {
           margin: 0 !important;
           width: 4em;
@@ -251,6 +257,48 @@ $height-footer: 10vh;
       position: relative;
     }
   }
+}
+
+#champion-tier {
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#champions-owned,
+#other-champions-owned {
+  width: 10em;
+  margin-top: 1em;
+  border-radius: 5px;
+  background-color: $color-silver;
+  color: $color-neutral;
+  padding: 0.5em;
+}
+
+#champions-owned[data-tier='1'],
+#other-champions-owned[data-tier='1'] {
+  color: $color-tier-1;
+  border-color: $color-tier-1;
+}
+
+#champions-owned[data-tier='2'],
+#other-champions-owned[data-tier='2'] {
+  color: $color-tier-2;
+}
+
+#champions-owned[data-tier='3'],
+#other-champions-owned[data-tier='3'] {
+  color: $color-tier-3;
+}
+
+#champions-owned[data-tier='4'],
+#other-champions-owned[data-tier='4'] {
+  color: $color-tier-4;
+}
+
+#champions-owned[data-tier='5'],
+#other-champions-owned[data-tier='5'] {
+  color: $color-tier-5;
 }
 
 .footer-container {
