@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/tft-calculator/static/css/main.f74cb7d1.css",
-    "main.js": "/tft-calculator/static/js/main.70790ac6.js",
+    "main.css": "/tft-calculator/static/css/main.92525a63.css",
+    "main.js": "/tft-calculator/static/js/main.2b70e342.js",
     "static/media/tft-background.jpg": "/tft-calculator/static/media/tft-background.850475188db5aca77928.jpg",
     "index.html": "/tft-calculator/index.html",
-    "main.f74cb7d1.css.map": "/tft-calculator/static/css/main.f74cb7d1.css.map",
-    "main.70790ac6.js.map": "/tft-calculator/static/js/main.70790ac6.js.map"
+    "main.92525a63.css.map": "/tft-calculator/static/css/main.92525a63.css.map",
+    "main.2b70e342.js.map": "/tft-calculator/static/js/main.2b70e342.js.map"
   },
   "entrypoints": [
-    "static/css/main.f74cb7d1.css",
-    "static/js/main.70790ac6.js"
+    "static/css/main.92525a63.css",
+    "static/js/main.2b70e342.js"
   ]
 }
