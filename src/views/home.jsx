@@ -131,13 +131,13 @@ export default function Home({ gamePool }) {
             <div className="input-row">
               <label htmlFor="champions-owned" className="font-sans font-semibold">
                 <p>Copies Gone</p>
-                <input id="champions-owned" value={prelimChampionsOwned} type="number" min="0" onChange={setNewPrelimChampionsOwned} data-tier={tier} onBlur={setNewChampionsOwned} />
+                <input title="Number of Desired Champion Out of Pool" id="champions-owned" value={prelimChampionsOwned} type="number" min="0" onChange={setNewPrelimChampionsOwned} data-tier={tier} onBlur={setNewChampionsOwned} />
               </label>
             </div>
             <div className="input-row">
               <label htmlFor="other-champions-owned" className="font-sans font-semibold">
                 <p>Same Tier Copies Gone</p>
-                <input id="other-champions-owned" value={prelimOtherChampionsOwned} type="number" min="0" onChange={setNewPrelimOtherChampionsOwned} data-tier={tier} onBlur={setNewOtherChampionsOwned} />
+                <input title="Champions of Same Tier Out of Pool" id="other-champions-owned" value={prelimOtherChampionsOwned} type="number" min="0" onChange={setNewPrelimOtherChampionsOwned} data-tier={tier} onBlur={setNewOtherChampionsOwned} />
               </label>
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function Home({ gamePool }) {
             <label htmlFor="goldToRoll" className="font-sans font-semibold">
               <div className="input-row">
                 <p style={{ display: 'none' }}>GOLD TO ROLL</p>
-                <input id="goldToRoll" type="number" value={prelimGoldToRoll} onChange={setNewPrelimGoldToRoll} onBlur={setNewGoldToRoll} min="0" step="2" />
+                <input title="Gold to Roll" id="goldToRoll" type="number" value={prelimGoldToRoll} onChange={setNewPrelimGoldToRoll} onBlur={setNewGoldToRoll} min="0" step="2" />
                 <Icon type="coins" />
               </div>
             </label>
@@ -153,8 +153,16 @@ export default function Home({ gamePool }) {
         </div>
         <div className="graph-container">
           <div className="printed-stats">
-            <p>{`E(Desired ${tier} Cost | Level ${level} and ${goldToRoll} gold) = ${EV}`}</p>
-            <p>{`P(At least one copy) = ${PR}`}</p>
+            <p>
+              {`E(Desired ${tier} Cost | Level ${level} and ${goldToRoll} gold) `}
+              &#8773;
+              {` ${EV}`}
+            </p>
+            <p>
+              P(At least one copy)
+              &#8773;
+              {` ${PR}`}
+            </p>
           </div>
         </div>
       </section>
